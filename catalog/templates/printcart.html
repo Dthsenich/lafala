@@ -3,13 +3,13 @@
 {% for product in cart_products %}
     Название: {{ product.user_product }} <br>
     Количество: {{ product.user_product_quantity }} <br>
-<form action="/del_item/{{ product.id }}" method="post">
+<form action="/del_item/{{ product.user_product.id }}" method="post">
     {% csrf_token %}
     <button>Удалить</button>
 </form>
 <hr>
 {% endfor %}
-<form method="post">
+<form action="/complete" method="post">
     {% csrf_token %}
     <button>Оформить заказ</button>
 </form>

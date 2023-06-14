@@ -75,7 +75,7 @@ def complete_order(request):
         for cart in user_cart:
             result_message += f'Название товара: {cart.user_product}\n' \
                           f'количество: {cart.user_product_quantity}'
-        handlers.bot.send_message(-1001971370189, result_message)
+        handlers.bot.send_message(-1001964021020, result_message)
         user_cart.delete()
         return redirect('/')
     return render(request, ' user_cart.html', {'user_cart': user_cart})
