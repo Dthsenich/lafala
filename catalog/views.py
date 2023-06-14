@@ -71,10 +71,13 @@ def complete_order(request):
     # собираем сообщение бота для админа
     if request.method == 'POST':
         result_message = 'Новый заказ(из Сайта)\n\n'
+        total = 0
     #  Счетчик для подсчета итога корзины
         for cart in user_cart:
             result_message += f'Название товара: {cart.user_product}\n' \
-                          f'количество: {cart.user_product_quantity}'
+                          f'количество: {cart.user_product_quantity}\n'
+            total += cart.user_product.price * cart.user_product_quantity
+        result_message += f'\n\nИтог: {total}'
         handlers.bot.send_message(-1001964021020, result_message)
         user_cart.delete()
         return redirect('/')
@@ -82,6 +85,6 @@ def complete_order(request):
 
 
 def delete_from_user_cart(request, pk):
-    user_cart = models.UserCart.objects.filter(user_id=request.user.id, user_product=pk)
-    user_cart.delete()
+    product_to_delete = models.Product.objects.get(id=pk)
+    models.UserCart.objects.filter(user_id=request.user.id, user_product=product_to_delete).delete()
     return redirect('/cart')
